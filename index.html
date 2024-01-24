@@ -4,81 +4,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
     <title>Rock Paper Scissors</title>
 
     <style>
+
+        html {
+            background-color: #ffcdb2;
+        }
+
+        #title {
+            text-align: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 42pt;
+
         #result {
             font-size: 15px;
             margin-bottom: 15px;
+
         }
 
         #bid {
-            border: 1px solid black;
+            background-color: #e5989b;
+            border-radius: 0.75rem;
             margin: 20px;
             padding: 20px;
             text-align: center;
         }
 
         #bid h1 {
+            color: #362c2c;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28pt;
+            font-weight: 800;
             padding: 0;
             margin: 0;
             padding-bottom: 20px;
         }
 
         #choices {
+            /* Added gap for accessibility and changed grid to 2 columns.*/
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
+            gap: 1em;
             padding: auto;
         }
 
         button {
-            font-size: 20px;
-            font-family: Georgia;
+            transition: transform 100ms ease-out;
+            transform: scale(1);
+            background-color: #362c2c;
+            color: #ffcdb2;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            border: none;
+            font-size: 18pt;
             padding: 20px;
+        }
+
+        button:hover {
+            transition: transform 225ms ease-out;
+            transform: scale(1.025);
+            background-color: #6b4949;
+        }
+
+        #result {
+            background-color: #b5838d;
+            color: #362c2c;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18pt;
+            font-weight: 800;
+            display: none;
+            grid-template-columns: 1fr;
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 5em;
+            margin: auto;
+            max-width: 40ch;
+        }
+
+        #result::before {
+            content: 'Result: ';
+            font-weight: bold;
+            font-size: 2.2rem;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+
+        }
+
+        #result::after {
+            /* Maybe add a pulsing cursor? */
+            content: '|';
+            font-size: 2.6rem;
+            animation: blink 1s infinite ease-in-out;
+        }
+
+
+        footer {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: #362c2c;
+            text-align: center;
+            padding: 2em;
+        }
+
+        @media only screen and (max-width: 420px) {
+
+            #title {
+                font-size: 28pt;
+            }
+
+            #bid h1 {
+                font-size: 24pt;
+            }
+
+            #choices {
+                grid-template-columns: 1fr;
+            }
+
+            button {
+                font-size: 12pt;
+            }
+
+            #result {
+                font-size: 12pt;
+                font-weight: 700;
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                border-radius: 3em;
+                max-width: 22ch;
+            }
+
+
+
         }
     </style>
 </head>
 
 <body>
 
-    <div id="result">
-        <!-- This is where our results will go -->
+    <div>
+        <div id="title">
+            Rock Paper Scissors Lizard Spock
+        </div>
     </div>
 
     <div id="bid">
         <h1>Choose:</h1>
         <div id="choices">
             <button id="rock">Rock</button>
+            <button id="spock">Spock</button>
             <button id="paper">Paper</button>
+            <button id="lizard">Lizard</button>
             <button id="scissors">Scissors</button>
         </div>
     </div>
 
+    <div>
+        <div id="result">
+            <!-- This is where our results will go -->
+        </div>
+    </div>
+
+
+    <footer>
+        OG Code — Sikholiwe Sibisi<br>
+        Refactored by — Alex O'Neill
+    </footer>
+
     <script>
+
         function dice(sides) {
             return Math.ceil(Math.random() * sides);
         }
 
         function rockPaperScissors(humanChoice) {
-            var choiceName = ["Rock", "Paper", "Scissors"];
+
+            var choiceName = ["Rock", "Spock", "Paper", "Lizard", "Scissors"];
 
             // STEP 1:
-            var computerChoice = dice(3);
 
+            // Dice now 5-sided.
+            var computerChoice = dice(5);
             var humanWins = false;
             var tied = false;
 
+
+
             // STEP 2:
-            if ((humanChoice === 1 && computerChoice === 3) ||
-                (humanChoice === 2 && computerChoice === 1) ||
-                (humanChoice === 3 && computerChoice === 2)) {
+
+            if (
+                // Scissors cut paper: 
+                (humanChoice == 5 && computerChoice == 3) ||
+
+                // Paper covers rock:
+                (humanChoice == 3 && computerChoice == 1) ||
+
+                // Rock crushes lizard:
+                (humanChoice == 1 && computerChoice == 4) ||
+
+                // Lizard poisons Spock:
+                (humanChoice == 4 && computerChoice == 2) ||
+
+                // Spock smashes scissors:
+                (humanChoice == 2 && computerChoice == 5) ||
+
+                // Scissors chop up lizard:
+                (humanChoice == 5 && computerChoice == 4) ||
+
+                // Lizard eats paper:
+                (humanChoice == 4 && computerChoice == 3) ||
+
+                // Paper disproves Spock:
+                (humanChoice == 3 && computerChoice == 2) ||
+
+                // Spock vaporizes rock:
+                (humanChoice == 2 && computerChoice == 1) ||
+
+                // Rock breaks scissors:
+                (humanChoice == 1 && computerChoice == 5)) {
+
                 humanWins = true;
-            } else if (humanChoice === computerChoice) {
+            }
+            else if (humanChoice == computerChoice) {
                 tied = true;
             }
 
+
             // STEP 3:
+
             var end;
+
             if (tied) {
                 end = "It's a tie!";
             } else if (humanWins) {
@@ -87,22 +261,39 @@
                 end = `You chose ${choiceName[humanChoice - 1]}. Computer chose ${choiceName[computerChoice - 1]}. You lose!`;
             }
 
+
             // STEP 4:
-            document.getElementById("result").innerText = end;
+
+            let result = document.getElementById('result');
+
+            result.innerText = end;
+            result.style.display = 'grid';
+
         }
+
+        // STEP 5:
+        // Firing Commands:
 
         document.getElementById("rock").onclick = () => {
             rockPaperScissors(1);
         };
 
-        // STEP 5:
-        document.getElementById("paper").addEventListener("click", () => {
+        document.getElementById("spock").onclick = () => {
             rockPaperScissors(2);
-        });
+        };
 
-        document.getElementById("scissors").addEventListener("click", () => {
+        document.getElementById("paper").onclick = () => {
             rockPaperScissors(3);
-        });
+        };
+
+        document.getElementById("lizard").onclick = () => {
+            rockPaperScissors(4);
+        };
+
+        document.getElementById("scissors").onclick = () => {
+            rockPaperScissors(5);
+        };
+
     </script>
 
 </body>
