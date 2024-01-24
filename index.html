@@ -7,27 +7,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
     <title>Rock Paper Scissors</title>
 
     <style>
-
         html {
             background-color: #ffcdb2;
         }
 
-        #result {
-            background-color: #b5838d;
-            color: #362c2c;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 18pt;
-            font-weight: 800;
-            display: none;
-            grid-template-columns: 1fr;
+        #title {
             text-align: center;
-            padding: 1rem;
-            border-radius: 2em;
-            margin: auto;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 42pt;
         }
 
         #bid {
@@ -39,9 +32,10 @@
         }
 
         #bid h1 {
-            color:  #362c2c;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 48px;
+            color: #362c2c;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28pt;
+            font-weight: 800;
             padding: 0;
             margin: 0;
             padding-bottom: 20px;
@@ -56,33 +50,116 @@
         }
 
         button {
+            transition: transform 100ms ease-out;
+            transform: scale(1);
             background-color: #362c2c;
             color: #ffcdb2;
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
             border-radius: 0.5rem;
             border: none;
-            font-size: 20px;
+            font-size: 18pt;
             padding: 20px;
         }
+
+        button:hover {
+            transition: transform 225ms ease-out;
+            transform: scale(1.025);
+            background-color: #6b4949;
+        }
+
+        #result {
+            background-color: #b5838d;
+            color: #362c2c;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18pt;
+            font-weight: 800;
+            display: none;
+            grid-template-columns: 1fr;
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 5em;
+            margin: auto;
+            max-width: 40ch;
+        }
+
+        #result::before {
+            content: 'Result: ';
+            font-weight: bold;
+            font-size: 2.2rem;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+
+        }
+
+        #result::after {
+            /* Maybe add a pulsing cursor? */
+            content: '|';
+            font-size: 2.6rem;
+            animation: blink 1s infinite ease-in-out;
+        }
+
 
         footer {
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
             color: #362c2c;
             text-align: center;
+            padding: 2em;
         }
 
+        @media only screen and (max-width: 420px) {
+
+            #title {
+                font-size: 28pt;
+            }
+
+            #bid h1 {
+                font-size: 24pt;
+            }
+
+            #choices {
+                grid-template-columns: 1fr;
+            }
+
+            button {
+                font-size: 12pt;
+            }
+
+            #result {
+                font-size: 12pt;
+                font-weight: 700;
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                border-radius: 3em;
+                max-width: 22ch;
+            }
+
+
+
+        }
     </style>
 </head>
 
 <body>
+
     <div>
-        <div id="result">
-            <!-- This is where our results will go -->
+        <div id="title">
+            Rock Paper Scissors Lizard Spock
         </div>
     </div>
-
 
     <div id="bid">
         <h1>Choose:</h1>
@@ -94,6 +171,13 @@
             <button id="scissors">Scissors</button>
         </div>
     </div>
+
+    <div>
+        <div id="result">
+            <!-- This is where our results will go -->
+        </div>
+    </div>
+
 
     <footer>
         OG Code — Sikholiwe Sibisi<br>
@@ -107,7 +191,7 @@
         }
 
         function rockPaperScissors(humanChoice) {
-            
+
             var choiceName = ["Rock", "Spock", "Paper", "Lizard", "Scissors"];
 
             // STEP 1:
@@ -151,9 +235,9 @@
 
                 // Rock breaks scissors:
                 (humanChoice == 1 && computerChoice == 5)) {
-                
-                    humanWins = true;
-            } 
+
+                humanWins = true;
+            }
             else if (humanChoice == computerChoice) {
                 tied = true;
             }
@@ -174,11 +258,12 @@
 
             // STEP 4:
 
-            document.getElementById("result").innerText = end;
-            document.getElementById("result").style.display = 'grid';
+            let result = document.getElementById('result');
+
+            result.innerText = end;
+            result.style.display = 'grid';
 
         }
-
 
         // STEP 5:
         // Firing Commands:
